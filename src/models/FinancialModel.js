@@ -10,6 +10,16 @@ const TransactionSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
 });
 
+const ExpenseSchema = new mongoose.Schema({
+  type: { type: String, required: true },
+  category: { type: String, required: true },
+  amount: { type: Number, required: true },
+  description: { type: String },
+  account: { type: String, required: true },
+  status: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
 const SavingsGoalSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   name: { type: String, required: true },
@@ -30,4 +40,5 @@ module.exports = {
   Transaction: mongoose.model("Transaction", TransactionSchema),
   SavingsGoal: mongoose.model("SavingsGoal", SavingsGoalSchema),
   Budget: mongoose.model("Budget", BudgetSchema),
+  Expense: mongoose.model("Expense", ExpenseSchema),
 };

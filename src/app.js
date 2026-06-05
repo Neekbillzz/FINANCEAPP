@@ -36,6 +36,8 @@ app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 app.use("/api/analytics", require("./routes/analyticsRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
 app.use('/api/savings', require('./routes/savingsRoutes'));
+app.use('/api/expenses', require('./routes/expenses'));
+
 
 // app.get("/", (req, res) => res.send("SpendWise API Engine Running"));
 
