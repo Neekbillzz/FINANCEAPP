@@ -7,7 +7,7 @@ const { protect } = require('../middlewares/authMiddleware');
 
 
 router.route('/income')
-  .post(protect, createTransaction);
+  .get(protect, createTransaction);
 
 router.route('/income-summary')
   .get(protect, getIncomeSummary);

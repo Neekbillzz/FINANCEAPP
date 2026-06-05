@@ -4,7 +4,7 @@ const { Expense } = require("../models/FinancialModel");
 
 // @route   POST /api/expenses/add
 
-router.post("/add", async (req, res) => {
+router.get("/add", async (req, res) => {
   try {
     const { type, category, amount, description, account, status } = req.body;
 
