@@ -1,4 +1,7 @@
 # Naillaz API
+---
+
+
 
 Welcome to the backend API for **Naillaz**, a lightweight fintech personal finance management platform designed to track income, expenses, and financial analytics.
 
@@ -6,7 +9,10 @@ This API is built using Node.js, Express, and MongoDB, featuring robust request 
 
 ---
 
+
+
 ## Tech Stack & Features
+---
 
 - **Runtime Environment:** Node.js
 - **Framework:** Express.js
@@ -17,24 +23,40 @@ This API is built using Node.js, Express, and MongoDB, featuring robust request 
 
 ---
 
+
+
 ## Getting Started
 
+---
+
 ### Prerequisites
+
+---
 
 Ensure you have the following installed on your local machine:
 
 - [Node.js](https://nodejs.org/) (v16.x or higher recommended)
 - [MongoDB Atlas Account](https://www.mongodb.com/cloud/atlas) (or a local MongoDB instance)
 
+---
+
 ### Installation Steps
 
+---
+
+
+
 1.  **Clone the repository and navigate to the project directory:**
+---
 
     cd naillaz-backend
+---
 
 2.  **Install project dependencies:**
 
     npm install
+
+---
 
 3.  **Configure Environment Variables:Configure Environment Variables:**
     Create a .env file in the root directory of your project and populate it with your local configurations:
@@ -44,6 +66,8 @@ Ensure you have the following installed on your local machine:
              MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxx.mongodb.net/naillaz?retryWrites=true&w=majority
 
              JWT_SECRET=your_super_secret_jwt_key_here
+
+---
 
 4.  **Run the Application:**
 
@@ -58,6 +82,8 @@ Production Mode:
 ---
 
 # Project Structure
+
+---
 
     src/
     ├── controllers/      # Handles business and database logic
@@ -75,7 +101,11 @@ Production Mode:
 
 # API Endpoints Reference
 
+---
+
 ## Authentication (/api/auth)
+
+---
 
 | Method | Endpoint         | Description                                | Auth Required |
 | :----- | :--------------- | :----------------------------------------- | :------------ |
@@ -85,6 +115,8 @@ Production Mode:
 ---
 
 ## Transactions (/api/transactions)
+
+---
 
 | Method | Endpoint                         | Description                                    | Auth Required      |
 | :----- | :------------------------------- | :--------------------------------------------- | :----------------- | --- |
@@ -97,6 +129,8 @@ Production Mode:
 
 ## Dashboard & Metrics
 
+---
+
 | Method | Endpoint       | Description                                              | Auth Required      |
 | :----- | :------------- | :------------------------------------------------------- | :----------------- | --- |
 | GET    | /api/dashboard | Fetches summary data (Total balance, net income/expense) | Yes (Bearer Token) |
@@ -107,7 +141,11 @@ Production Mode:
 
 # Request & Response Payload Examples
 
+---
+
 ## 1. User Registration (POST /api/auth/sign-up)
+
+---
 
 Expected JSON Body:
 
@@ -141,6 +179,8 @@ Expected JSON Body:
 
 Successful Response (200 OK):
 
+---
+
     {
      "success": true,
      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -155,20 +195,34 @@ Successful Response (200 OK):
 
 ## Authentication & Password Recovery Endpoints
 
+---
+
 ### 1. Request Password Reset
 
+---
+
 Initiates the password recovery sequence by verifying the user's email, generating a highly secure, time-sensitive cryptographic string, and dispatching a recovery link.
+
+---
 
 - **Endpoint:** `POST /api/auth/forgot-password`
 - **Access:** Public
 
+---
+
 #### Request Body
+
+---
 
     {
      "email": "alex@spendwise.com"
      }
 
+---
+
 ## Behind the Scenes
+
+---
 
 The server generates a random 32-byte hexadecimal crypto token.
 
@@ -176,7 +230,11 @@ The token is mapped to the user schema alongside a 1-hour expiration timestamp.
 
 An automated transactional email is triggered via Nodemailer containing the unique token query parameter targeting the client-side recovery view.
 
+---
+
 #### Response (200 OK)
+
+---
 
     {
     "message": "If that email exists, a password reset link has been dispatched."
@@ -186,13 +244,19 @@ An automated transactional email is triggered via Nodemailer containing the uniq
 
 ### 2. Reset Password
 
+---
+
 Consumes the cryptographic recovery token transmitted via the JSON payload and updates the user's security credentials upon validation.
 
 Endpoint: POST /api/auth/reset-password
 
 Access: Public
 
+---
+
 ### Request Body
+
+---
 
      JSON
 
@@ -201,7 +265,12 @@ Access: Public
     "password": "NewSecuredPassword123"
         }
 
+
+---
+
 ### Validation & Logic
+
+---
 
 Both inputs undergo structure checks enforced by a Joi validation middleware layer.
 
@@ -209,10 +278,16 @@ The system searches for a record matches the supplied token value where the thre
 
 If found, the incoming raw string is safely auto-hashed using bcrypt before storage, and the temporary token variables are reset to null.
 
+---
+
 #### Response (200 OK)
+
+---
 
     JSON
 
     {
        "message": "Password changed successfully! You can now login."
     }
+
+---
