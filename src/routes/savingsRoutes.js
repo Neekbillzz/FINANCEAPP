@@ -7,7 +7,8 @@ const { validateSavingsInput } = require('../middlewares/validateSavings');
 console.log("Protect middleware:", protect);
 console.log("GetGoals controller:", savingsController.getGoals);
 
-router.post('/add-funds/:id', protect, savingsController.createGoal);
+router.post('/', protect, validateSavingsInput, savingsController.createGoal);
+router.post('/add-funds/:id', protect, savingsController.addFunds);
 router.get('/history', protect, savingsController.getGoals);
 
 module.exports = router;

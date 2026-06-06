@@ -25,6 +25,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  settings: {
+    theme: { type: String, default: 'light' },
+    currency: { type: String, default: 'USD' },
+    notifications: { type: Boolean, default: true },
+    language: { type: String, default: 'en' }
+  },
   resetPasswordExpires: {
     type: Date,
     default: null,

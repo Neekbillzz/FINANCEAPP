@@ -13,14 +13,14 @@ exports.createTransaction = async (req, res) => {
       req.body;
     const userId = req.user.id;
 
-    if (!type ||!category || !amount || !description || !account) {
+    if (!type || !category || !amount || !description || !account) {
       return res.status(400).json({
         message: "Please provide all required fields.",
       });
     }
 
     const transaction = await Transaction.create({
-      userId,
+      user: req.user.id,
       type,
       category,
       description,
@@ -48,6 +48,18 @@ exports.createTransaction = async (req, res) => {
     }
 
     res.status(201).json({ data: transaction });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.getAllTransactions = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const transactions = await Transaction.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+    res.status(200).json({ success: true, data: transactions });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

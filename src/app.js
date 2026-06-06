@@ -3,7 +3,6 @@ const cors = require("cors");
 const multer = require("multer");
 const logRequest = require("./middlewares/logger");
 const errorHandler = require("./middlewares/errHandler");
-
 const upload = multer({ dest: "uploads/" });
 
 const app = express();
@@ -20,24 +19,31 @@ const corsOptions = {
 };
 
 app.use((req, res, next) => {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
-    next();
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
 });
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(logRequest);
 
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  if (req.body) {
+    console.log("Payload:", JSON.stringify(req.body, null, 2));
+  }
+  next();
+});
 
+app.use('/api/user', require("./routes/userRoute"))
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/transactions", require("./routes/transactionRoutes"));
 app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 app.use("/api/analytics", require("./routes/analyticsRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
-app.use('/api/savings', require('./routes/savingsRoutes'));
-app.use('/api/expenses', require('./routes/expenses'));
-
+app.use("/api/savings", require("./routes/savingsRoutes"));
+app.use("/api/expenses", require("./routes/expenses"));
 
 // app.get("/", (req, res) => res.send("SpendWise API Engine Running"));
 
@@ -48,8 +54,6 @@ app.get("/api/health", (req, res) => {
     uptime: process.uptime(),
   });
 });
-
-
 
 app.use(errorHandler);
 
